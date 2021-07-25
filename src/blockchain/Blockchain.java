@@ -19,7 +19,7 @@ interface BlockchainInt extends Serializable {
 public class Blockchain implements BlockchainInt {
 
     private static final long serialVersionUID = 3519709832155525778L;
-    private final List<Block> blockchain;
+    private final ArrayList<Block> blockchain;
     private int blockCount;
     private final int amountOfZeros;
     private final String destination;
@@ -38,7 +38,7 @@ public class Blockchain implements BlockchainInt {
             blockchain.writeBlockchain(destination);
         } else {
             //reading blockchain from file
-            blockchain.readBlockchain(destination);
+            blockchain = blockchain.readBlockchain(destination);
         }
         System.out.println(blockchain);
         return blockchain;
@@ -56,9 +56,9 @@ public class Blockchain implements BlockchainInt {
         String previousHash =
                 blockCount == 0 ? "0" : blockchain.get(blockCount - 1).getHash();
         Block block = new Block(blockCount + 1, previousHash, amountOfZeros);
-        writeBlockchain(destination);
         blockCount++;
         blockchain.add(block);
+        writeBlockchain(destination);
 
     }
 
@@ -98,59 +98,23 @@ public class Blockchain implements BlockchainInt {
     }
 
     public void printInfo() {
-        System.out.println(this.toString() + blockchain.size());
+        System.out.println(this);
     }
 
-    private void readBlockchain(String dest) {
+    private Blockchain readBlockchain(String dest) {
         File file = new File(dest);
         try (
                 FileInputStream fis = new FileInputStream(file);
                 ObjectInputStream ois = new ObjectInputStream(fis)
         ) {
-            ois.readObject();
+            return (Blockchain) ois.readObject();
         } catch (FileNotFoundException e) {
             System.out.println(Util.getRedString(e.getMessage()));
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        return null;
     }
-
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        ois.defaultReadObject();/*
-        Object obj;
-        //reading all the blocks in blockchain
-        while (true) {
-            try {
-                obj = ois.readObject();
-                if (obj instanceof Block) {
-                    blockchain.add((Block) obj);
-                    blockCount++;
-                }
-            } catch (EOFException e) {
-                break;
-            }
-        }*/
-    }
-
-    private void writeObject(ObjectOutputStream oos) throws IOException {
-        oos.defaultWriteObject();
-        /*for (Block block : blockchain) {
-            oos.writeObject(block);
-        }*/
-    }
-/*
-    private void writeBlock(Block block) throws IOException {
-        File file = new File(destination);
-        FileOutputStream fos = new FileOutputStream(file, true);
-        ObjectOutputStream oos = new ObjectOutputStream(fos) {
-            @Override
-            protected void writeStreamHeader() throws IOException {
-                reset();
-            }
-        };
-        oos.writeObject(block);
-        oos.close();
-    }*/
 
     private void writeBlockchain(String destination) {
         File file = new File(destination);

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Random;
 
 public class Block implements Serializable {
+    private static final long serialVersionUID = 3699397713609871929L;
     private final long id;
     private final long timestamp;
     private final String hash;
