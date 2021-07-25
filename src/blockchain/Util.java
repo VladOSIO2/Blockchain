@@ -1,9 +1,15 @@
 package blockchain;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.Scanner;
 
-public class StringUtils {
+public class Util {
     /* Applies Sha256 to a string and returns a hash. */
     public static String applySha256(String input){
         try {
@@ -21,5 +27,21 @@ public class StringUtils {
         catch(Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static boolean isEmptyFile(String destination) {
+        //returns true if file in given destination exists and is empty
+        File file = new File(destination);
+        if (!file.exists() || !file.isFile()) return false;
+        try (FileInputStream fos = new FileInputStream(file)) {
+            if (fos.available() == 0) return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static String getRedString(String str) {
+        return "\033[0;31m" + str + "\033[0m";
     }
 }
