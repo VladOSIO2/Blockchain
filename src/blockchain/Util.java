@@ -29,9 +29,9 @@ public class Util {
         }
     }
 
-    public static boolean isEmptyFile(String destination) {
+    public static boolean isEmptyFile(String dest) {
         //returns true if file in given destination exists and is empty
-        File file = new File(destination);
+        File file = new File(dest);
         if (!file.exists() || !file.isFile()) return false;
         try (FileInputStream fos = new FileInputStream(file)) {
             if (fos.available() == 0) return true;
@@ -41,7 +41,22 @@ public class Util {
         return false;
     }
 
+    public static void createFIleIfNotExists(String dest) {
+        File file = new File(dest);
+        try {
+            boolean isCreated = file.createNewFile();
+            if (!isCreated) {
+                System.out.println(Util.getRedString(dest + ": file already exists"));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public static String getRedString(String str) {
         return "\033[0;31m" + str + "\033[0m";
     }
+
+
 }

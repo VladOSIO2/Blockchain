@@ -5,21 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-interface BlockchainInt extends Serializable {
-    static Blockchain init() {
-        return null;
-    }
-    void createBlock();
-    boolean validate();
-    String toString();
-    void printInfo();
 
-}
 
-public class Blockchain implements BlockchainInt {
+public class Blockchain implements Serializable {
 
     private static final long serialVersionUID = 3519709832155525778L;
-    private final ArrayList<Block> blockchain;
+    private final List<Block> blockchain;
     private int blockCount;
     private final int amountOfZeros;
     private final String destination;
@@ -32,15 +23,19 @@ public class Blockchain implements BlockchainInt {
     }
 
     public static Blockchain init(String destination) {
-        Blockchain blockchain = new Blockchain(requestNumberOfZeros(), destination);
+        Blockchain blockchain;
+        Util.createFIleIfNotExists(destination);
         if (Util.isEmptyFile(destination)) {
             //writing blockchain to an empty file
+            blockchain = new Blockchain(requestNumberOfZeros(), destination);
             blockchain.writeBlockchain(destination);
         } else {
+
             //reading blockchain from file
+            //setting amountOfZeros to 0, then amount will be read from file
+            blockchain = new Blockchain(0, destination);
             blockchain = blockchain.readBlockchain(destination);
         }
-        System.out.println(blockchain);
         return blockchain;
     }
 
@@ -59,7 +54,6 @@ public class Blockchain implements BlockchainInt {
         blockCount++;
         blockchain.add(block);
         writeBlockchain(destination);
-
     }
 
     @Override
@@ -103,13 +97,15 @@ public class Blockchain implements BlockchainInt {
 
     private Blockchain readBlockchain(String dest) {
         File file = new File(dest);
+        if (file.isDirectory()) {
+            System.out.println(Util.getRedString(dest + " : is a directory"));
+            return null;
+        }
         try (
                 FileInputStream fis = new FileInputStream(file);
                 ObjectInputStream ois = new ObjectInputStream(fis)
         ) {
             return (Blockchain) ois.readObject();
-        } catch (FileNotFoundException e) {
-            System.out.println(Util.getRedString(e.getMessage()));
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
