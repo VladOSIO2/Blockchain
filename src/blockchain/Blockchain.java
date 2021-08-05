@@ -13,10 +13,10 @@ public class Blockchain implements Serializable {
 
     /** minimum block generation time in seconds
      * amount of zeroes increases if this time less than minimum */
-    private static final int MINIMUM_GENERATION_TIME = 5;
+    private static final int MINIMUM_GENERATION_TIME = 2;
     /** maximum block generation time in seconds
      * amount of zeroes decreases if this time exceeded */
-    private static final int MAXIMUM_GENERATION_TIME = 60;
+    private static final int MAXIMUM_GENERATION_TIME = 10;
 
 
     private static final long serialVersionUID = 3519709832155525779L;
@@ -25,35 +25,27 @@ public class Blockchain implements Serializable {
     private volatile int amountOfZeros;
     private final String destination;
 
-    private Blockchain(int amountOfZeros, String destination) {
+    private Blockchain(String destination) {
         this.blockList = new ArrayList<>();
         this.blockCount = 0;
-        this.amountOfZeros = amountOfZeros;
+        this.amountOfZeros = 0;
         this.destination = destination;
         instance = this;
     }
 
-    public static Blockchain getInstance(String destination) {
+    public static synchronized Blockchain getInstance(String destination) {
         Util.createFIleIfNotExists(destination);
+        if (instance == null) {
+            instance = new Blockchain(destination);
+        }
         if (Util.isEmptyFile(destination)) {
             //writing blockchain to an empty file
-            instance = new Blockchain(requestNumberOfZeros(), destination);
             instance.writeBlockchain(destination);
         } else {
             //reading blockchain from file
-            //setting amountOfZeros to 0, then amount will be read from file
-            instance = new Blockchain(0, destination);
             instance = instance.readBlockchain(destination);
         }
         return instance;
-    }
-
-    private static int requestNumberOfZeros() {
-        final Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter how many zeros the hash must start with: ");
-        int num = scanner.nextInt();
-        System.out.println();
-        return num;
     }
 
     public void createBlock() {
@@ -65,12 +57,12 @@ public class Blockchain implements Serializable {
             blockCount++;
 
             Block newBlock = BlockFactory.createBlock(blockCount, previousHash, hashInfo);
-            blockList.add(newBlock);/*
+            blockList.add(newBlock);
             if (newBlock.getGenerationTime() < MINIMUM_GENERATION_TIME) {
                 amountOfZeros++;
             } else if (newBlock.getGenerationTime() > MAXIMUM_GENERATION_TIME) {
                 amountOfZeros--;
-            }*/
+            }
 
             writeBlockchain(destination);
         }
@@ -79,8 +71,18 @@ public class Blockchain implements Serializable {
     @Override
     public String toString() {
         StringBuilder info = new StringBuilder();
+        int zeros = 0; //represents amountOfZeros as blockchain starts generating blocks with 0 zeros
         for (Block block : blockList) {
-            info.append(block.toString()).append("\n\n");
+            info.append(block.toString()).append("\n");
+            if (block.getGenerationTime() < MINIMUM_GENERATION_TIME) {
+                info.append("N was increased to ").append(++zeros);
+            } else if (block.getGenerationTime() > MAXIMUM_GENERATION_TIME) {
+                info.append("N was decreased by 1");
+                zeros--;
+            } else {
+                info.append("N stays the same");
+            }
+            info.append("\n\n");
         }
         return info.toString().trim();
     }
