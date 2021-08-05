@@ -9,34 +9,43 @@ import java.util.Scanner;
 
 public class Blockchain implements Serializable {
 
-    private static final long serialVersionUID = 3519709832155525778L;
-    private final List<Block> blockchain;
-    private int blockCount;
-    private final int amountOfZeros;
+    private static Blockchain instance;
+
+    /** minimum block generation time in seconds
+     * amount of zeroes increases if this time less than minimum */
+    private static final int MINIMUM_GENERATION_TIME = 5;
+    /** maximum block generation time in seconds
+     * amount of zeroes decreases if this time exceeded */
+    private static final int MAXIMUM_GENERATION_TIME = 60;
+
+
+    private static final long serialVersionUID = 3519709832155525779L;
+    private final List<Block> blockList;
+    private volatile int blockCount;
+    private volatile int amountOfZeros;
     private final String destination;
 
     private Blockchain(int amountOfZeros, String destination) {
-        this.blockchain = new ArrayList<>();
+        this.blockList = new ArrayList<>();
         this.blockCount = 0;
         this.amountOfZeros = amountOfZeros;
         this.destination = destination;
+        instance = this;
     }
 
-    public static Blockchain init(String destination) {
-        Blockchain blockchain;
+    public static Blockchain getInstance(String destination) {
         Util.createFIleIfNotExists(destination);
         if (Util.isEmptyFile(destination)) {
             //writing blockchain to an empty file
-            blockchain = new Blockchain(requestNumberOfZeros(), destination);
-            blockchain.writeBlockchain(destination);
+            instance = new Blockchain(requestNumberOfZeros(), destination);
+            instance.writeBlockchain(destination);
         } else {
-
             //reading blockchain from file
             //setting amountOfZeros to 0, then amount will be read from file
-            blockchain = new Blockchain(0, destination);
-            blockchain = blockchain.readBlockchain(destination);
+            instance = new Blockchain(0, destination);
+            instance = instance.readBlockchain(destination);
         }
-        return blockchain;
+        return instance;
     }
 
     private static int requestNumberOfZeros() {
@@ -48,43 +57,46 @@ public class Blockchain implements Serializable {
     }
 
     public void createBlock() {
-        String previousHash =
-                blockCount == 0 ? "0" : blockchain.get(blockCount - 1).getHash();
-        Block block = new Block(blockCount + 1, previousHash, amountOfZeros);
-        blockCount++;
-        blockchain.add(block);
-        writeBlockchain(destination);
+        HashInfo hashInfo = HashFactory.generateHash(amountOfZeros);
+        String previousHash;
+        synchronized (this) {
+            previousHash =
+                    blockCount == 0 ? "0" : blockList.get(blockCount - 1).getHash();
+            blockCount++;
+
+            Block newBlock = BlockFactory.createBlock(blockCount, previousHash, hashInfo);
+            blockList.add(newBlock);/*
+            if (newBlock.getGenerationTime() < MINIMUM_GENERATION_TIME) {
+                amountOfZeros++;
+            } else if (newBlock.getGenerationTime() > MAXIMUM_GENERATION_TIME) {
+                amountOfZeros--;
+            }*/
+
+            writeBlockchain(destination);
+        }
     }
 
     @Override
     public String toString() {
         StringBuilder info = new StringBuilder();
-        for (Block block : blockchain) {
+        for (Block block : blockList) {
             info.append(block.toString()).append("\n\n");
         }
         return info.toString().trim();
     }
 
     public boolean validate() {
-        if (blockchain.size() == 0) return true;
-        if (!(blockchain.get(0).getPreviousHash().equals("0"))) return false;
+        if (blockList.size() == 0) return true;
+        if (!(blockList.get(0).getPreviousHash().equals("0"))) return false;
         for (int i = 1; i < blockCount; i++) {
-            Block currBlock = blockchain.get(i);
-            Block prevBlock = blockchain.get(i - 1);
+            Block currBlock = blockList.get(i);
+            Block prevBlock = blockList.get(i - 1);
             /* previous hash in current block
              * must correspond to the current hash
              * in previous block
              */
             if (!(currBlock.getPreviousHash().equals(
                     prevBlock.getHash()))) {
-                return false;
-            }
-            /* block ID must be greater by 1 than previous */
-            if (currBlock.getId() - 1 != prevBlock.getId()) {
-                return false;
-            }
-            /* block must start with amount of zeroes */
-            if (!currBlock.getHash().startsWith("0".repeat(amountOfZeros))) {
                 return false;
             }
         }
