@@ -15,9 +15,4 @@ public class BlockFactory {
         return new Block(minerInfo, id, timestamp, hash, previousHash, magicNumber, generationTime);
     }
 
-
-
-    private static String generateHash(int magicNumber) {
-        return Util.applySha256(Integer.toHexString(magicNumber));
-    }
 }
