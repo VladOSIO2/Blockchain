@@ -9,10 +9,11 @@ public class BlockFactory {
         long startTime = hashInfo.getStartTime();
         long timestamp = hashInfo.getTimeStamp();
         int magicNumber = hashInfo.getMagicNumber();
+        int amountOfZeros = hashInfo.getAmountOfZeros();
 
         int generationTime = (int) ((timestamp - startTime) / 1000);
 
-        return new Block(minerInfo, id, timestamp, hash, previousHash, magicNumber, generationTime);
+        return new Block(minerInfo, id, timestamp, hash, previousHash, magicNumber, generationTime, amountOfZeros);
     }
 
 }

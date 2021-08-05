@@ -13,15 +13,17 @@ public class Block implements Serializable {
     private final String previousHash;
     private final int magicNumber;
     private final int generationTime; //generation time in seconds
+    private final int amountOfZeros;
 
-    public Block(String minerInfo, long id, long timestamp, String hash, String previousHash, int magicNumber, int generationTime) {
+    public Block(String minerInfo, long id, long timestamp, String hash, String previousHash, int magicNumber, int generationTime, int amountOfZeros) {
         this.minerInfo = minerInfo;
         this.id = id;
-        this.timestamp = System.currentTimeMillis();
+        this.timestamp = timestamp;
         this.hash = hash;
         this.previousHash = previousHash;
         this.magicNumber = magicNumber;
         this.generationTime = generationTime;
+        this.amountOfZeros = amountOfZeros;
     }
 
     public String getMinerInfo() {
@@ -50,6 +52,10 @@ public class Block implements Serializable {
 
     public int getGenerationTime() {
         return generationTime;
+    }
+
+    public int getAmountOfZeros() {
+        return amountOfZeros;
     }
 
     @Override

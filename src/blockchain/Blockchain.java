@@ -3,7 +3,6 @@ package blockchain;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 
 
@@ -16,7 +15,7 @@ public class Blockchain implements Serializable {
     private static final int MINIMUM_GENERATION_TIME = 2;
     /** maximum block generation time in seconds
      * amount of zeroes decreases if this time exceeded */
-    private static final int MAXIMUM_GENERATION_TIME = 10;
+    private static final int MAXIMUM_GENERATION_TIME = 5;
 
 
     private static final long serialVersionUID = 3519709832155525779L;
@@ -74,13 +73,18 @@ public class Blockchain implements Serializable {
         int zeros = 0; //represents amountOfZeros as blockchain starts generating blocks with 0 zeros
         for (Block block : blockList) {
             info.append(block.toString()).append("\n");
-            if (block.getGenerationTime() < MINIMUM_GENERATION_TIME) {
-                info.append("N was increased to ").append(++zeros);
-            } else if (block.getGenerationTime() > MAXIMUM_GENERATION_TIME) {
-                info.append("N was decreased by 1");
-                zeros--;
-            } else {
-                info.append("N stays the same");
+            int change = Integer.compare(zeros - block.getAmountOfZeros(), 0);
+            zeros = block.getAmountOfZeros();
+            switch (change) {
+                case -1:
+                    info.append("N was increased to ").append(zeros);
+                    break;
+                case 1:
+                    info.append("N was decreased to ").append(zeros);
+                    break;
+                case 0:
+                    info.append("N stays the same");
+                    break;
             }
             info.append("\n\n");
         }

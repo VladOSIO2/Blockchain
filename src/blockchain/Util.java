@@ -2,12 +2,9 @@ package blockchain;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.util.Scanner;
 
 public class Util {
     /* Applies Sha256 to a string and returns a hash. */
@@ -23,8 +20,7 @@ public class Util {
                 hexString.append(hex);
             }
             return hexString.toString();
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -44,10 +40,7 @@ public class Util {
     public static void createFIleIfNotExists(String dest) {
         File file = new File(dest);
         try {
-            boolean isCreated = file.createNewFile();
-            if (!isCreated) {
-                System.out.println(Util.getRedString(dest + ": file already exists"));
-            }
+            file.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }

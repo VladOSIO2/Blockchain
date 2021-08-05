@@ -12,9 +12,9 @@ public class HashFactory {
         long startTime = System.currentTimeMillis();
         do {
             magicNumber = random.nextInt();
-            hash = Util.applySha256(Integer.toHexString(magicNumber));
+            hash = Util.applySha256(Long.toHexString(magicNumber + startTime));
         } while (!hash.startsWith(zerosStr));
         long timeStamp = System.currentTimeMillis();
-        return new HashInfo(startTime, timeStamp, magicNumber, hash);
+        return new HashInfo(startTime, timeStamp, magicNumber, amountOfZeros, hash);
     }
 }
