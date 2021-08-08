@@ -12,10 +12,10 @@ public class Blockchain implements Serializable {
 
     /** minimum block generation time in seconds
      * amount of zeroes increases if this time less than minimum */
-    private static final int MINIMUM_GENERATION_TIME = 2;
+    public static final int MIN_GEN_TIME = 2;
     /** maximum block generation time in seconds
      * amount of zeroes decreases if this time exceeded */
-    private static final int MAXIMUM_GENERATION_TIME = 5;
+    public static final int MAX_GEN_TIME = 5;
 
 
     private static final long serialVersionUID = 3519709832155525779L;
@@ -48,18 +48,17 @@ public class Blockchain implements Serializable {
     }
 
     public void createBlock() {
-        HashInfo hashInfo = HashFactory.generateHash(amountOfZeros);
+        HashInfo hashInfo = HashFactory.generateHash();
         String previousHash;
         synchronized (this) {
             previousHash =
                     blockCount == 0 ? "0" : blockList.get(blockCount - 1).getHash();
             blockCount++;
-
             Block newBlock = BlockFactory.createBlock(blockCount, previousHash, hashInfo);
             blockList.add(newBlock);
-            if (newBlock.getGenerationTime() < MINIMUM_GENERATION_TIME) {
+            if (newBlock.getGenerationTime() < MIN_GEN_TIME) {
                 amountOfZeros++;
-            } else if (newBlock.getGenerationTime() > MAXIMUM_GENERATION_TIME) {
+            } else if (newBlock.getGenerationTime() > MAX_GEN_TIME) {
                 amountOfZeros--;
             }
 
@@ -70,22 +69,15 @@ public class Blockchain implements Serializable {
     @Override
     public String toString() {
         StringBuilder info = new StringBuilder();
-        int zeros = 0; //represents amountOfZeros as blockchain starts generating blocks with 0 zeros
         for (Block block : blockList) {
             info.append(block.toString()).append("\n");
-            int change = Integer.compare(zeros - block.getAmountOfZeros(), 0);
-            zeros = block.getAmountOfZeros();
-            switch (change) {
-                case -1:
-                    info.append("N was increased to ").append(zeros);
-                    break;
-                case 1:
-                    info.append("N was decreased to ").append(zeros);
-                    break;
-                case 0:
-                    info.append("N stays the same");
-                    break;
-            }
+            int genTime = block.getGenerationTime();
+            int zeros = block.getAmountOfZeros();
+            info.append(
+                    genTime > Blockchain.MAX_GEN_TIME ? "N was decreased to " + --zeros
+                            : genTime < Blockchain.MIN_GEN_TIME ? "N was increased to " + ++zeros
+                            : "N stays the same"
+            );
             info.append("\n\n");
         }
         return info.toString().trim();
@@ -139,5 +131,9 @@ public class Blockchain implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static int getAmountOfZeros() {
+        return instance == null ? 0 : instance.amountOfZeros;
     }
 }
