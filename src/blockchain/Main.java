@@ -10,7 +10,7 @@ public class Main {
 
         final Blockchain blockchain = Blockchain.getInstance("blockchain.txt");
 
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 5; i++) {
             Thread.sleep(100);
             executor.submit(blockchain::createBlock);
         }
