@@ -20,7 +20,7 @@ public class Main {
         executor.shutdown();
 
         //sending messages while blocks keep generating
-        while (!executor.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+        while (!executor.awaitTermination(700, TimeUnit.MILLISECONDS)) {
             MessageHandler.getInstance().addMessage(MessageGenerator.next());
         }
 
