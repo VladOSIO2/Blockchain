@@ -4,20 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MessageHandler {
+    private static MessageHandler instance;
     List<Message> messageList;
 
-    public MessageHandler() {
+    public static MessageHandler getInstance() {
+        if (instance == null) {
+            instance = new MessageHandler();
+        }
+        return instance;
+    }
+
+    private MessageHandler() {
         messageList = new ArrayList<>();
     }
 
-    public void addMessage(Message message) {
+    public synchronized void addMessage(Message message) {
         messageList.add(message);
     }
 
-    public String collectMessages() {
+    public synchronized String collectMessages() {
         StringBuilder messages = new StringBuilder();
         messageList.forEach(msg -> messages.append(msg.toString()).append("\n"));
         messageList.clear();
-        return messages.toString();
+        return messages.toString().equals("") ? "no messages\n" : "\n" + messages;
     }
 }

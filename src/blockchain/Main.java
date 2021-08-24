@@ -1,23 +1,29 @@
 package blockchain;
 
+import blockchain.message.MessageGenerator;
+import blockchain.message.MessageHandler;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
+        final Blockchain blockchain = Blockchain.getInstance("blockchain.txt");
+        final int blocksToGenerate = 10;
         ExecutorService executor = Executors.newFixedThreadPool(8);
 
-        final Blockchain blockchain = Blockchain.getInstance("blockchain.txt");
-
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < blocksToGenerate; i++) {
             Thread.sleep(100);
             executor.submit(blockchain::createBlock);
         }
         executor.shutdown();
-        boolean isTerminated = executor.awaitTermination(5000, TimeUnit.SECONDS);
-        if (isTerminated) {
-            blockchain.printInfo();
+
+        //sending messages while blocks keep generating
+        while (!executor.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+            MessageHandler.getInstance().addMessage(MessageGenerator.next());
         }
+
+        blockchain.printInfo();
     }
 }

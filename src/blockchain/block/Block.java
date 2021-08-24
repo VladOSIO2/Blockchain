@@ -1,6 +1,7 @@
 package blockchain.block;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Block implements Serializable {
     private static final long serialVersionUID = 3699397713609871929L;
@@ -9,12 +10,14 @@ public class Block implements Serializable {
     private final String minerInfo;
     private final long id;
     private final String previousHash;
+    private final String messages;
 
-    public Block(HashInfo hashInfo, String minerInfo, long id, String previousHash) {
+    public Block(HashInfo hashInfo, String minerInfo, long id, String previousHash, String messages) {
         this.hashInfo = hashInfo;
         this.minerInfo = minerInfo;
         this.id = id;
         this.previousHash = previousHash;
+        this.messages = messages;
     }
 
     public String getMinerInfo() {
@@ -60,6 +63,7 @@ public class Block implements Serializable {
                 previousHash + "\n" +
                 "Hash of the block:\n" +
                 getHash() + "\n" +
+                "Block data: " + messages +
                 "Block was generating for " + getGenerationTime() + " seconds";
     }
 }

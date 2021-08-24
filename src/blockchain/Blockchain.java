@@ -141,4 +141,8 @@ public class Blockchain implements Serializable {
     public static int getAmountOfZeros() {
         return instance == null ? 0 : instance.amountOfZeros;
     }
+
+    public synchronized int getBlockCount() {
+        return blockCount;
+    }
 }
