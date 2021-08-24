@@ -1,5 +1,10 @@
 package blockchain;
 
+import blockchain.block.Block;
+import blockchain.block.BlockFactory;
+import blockchain.block.HashFactory;
+import blockchain.block.HashInfo;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -135,5 +140,9 @@ public class Blockchain implements Serializable {
 
     public static int getAmountOfZeros() {
         return instance == null ? 0 : instance.amountOfZeros;
+    }
+
+    public synchronized int getBlockCount() {
+        return blockCount;
     }
 }

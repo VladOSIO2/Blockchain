@@ -1,29 +1,23 @@
-package blockchain;
+package blockchain.block;
 
 import java.io.Serializable;
-import java.util.Random;
+import java.util.List;
 
 public class Block implements Serializable {
     private static final long serialVersionUID = 3699397713609871929L;
 
+    private final HashInfo hashInfo;
     private final String minerInfo;
     private final long id;
-    private final long timestamp;
-    private final String hash;
     private final String previousHash;
-    private final int magicNumber;
-    private final int generationTime; //generation time in seconds
-    private final int amountOfZeros;
+    private final String messages;
 
-    public Block(String minerInfo, long id, long timestamp, String hash, String previousHash, int magicNumber, int generationTime, int amountOfZeros) {
+    public Block(HashInfo hashInfo, String minerInfo, long id, String previousHash, String messages) {
+        this.hashInfo = hashInfo;
         this.minerInfo = minerInfo;
         this.id = id;
-        this.timestamp = timestamp;
-        this.hash = hash;
         this.previousHash = previousHash;
-        this.magicNumber = magicNumber;
-        this.generationTime = generationTime;
-        this.amountOfZeros = amountOfZeros;
+        this.messages = messages;
     }
 
     public String getMinerInfo() {
@@ -35,11 +29,11 @@ public class Block implements Serializable {
     }
 
     public long getTimestamp() {
-        return timestamp;
+        return hashInfo.getTimeStamp();
     }
 
     public String getHash() {
-        return hash;
+        return hashInfo.getHash();
     }
 
     public String getPreviousHash() {
@@ -47,15 +41,15 @@ public class Block implements Serializable {
     }
 
     public long getMagicNumber() {
-        return magicNumber;
+        return hashInfo.getMagicNumber();
     }
 
     public int getGenerationTime() {
-        return generationTime;
+        return hashInfo.getGenerationTime();
     }
 
     public int getAmountOfZeros() {
-        return amountOfZeros;
+        return hashInfo.getAmountOfZeros();
     }
 
     @Override
@@ -63,12 +57,13 @@ public class Block implements Serializable {
         return "Block:" + "\n" +
                 "Created by miner " + minerInfo + "\n" +
                 "Id:" + id + "\n" +
-                "Timestamp: " + timestamp + "\n" +
-                "Magic number: " + magicNumber + "\n" +
+                "Timestamp: " + getTimestamp() + "\n" +
+                "Magic number: " + getMagicNumber() + "\n" +
                 "Hash of the previous block:\n" +
                 previousHash + "\n" +
                 "Hash of the block:\n" +
-                hash + "\n" +
-                "Block was generating for " + generationTime + " seconds";
+                getHash() + "\n" +
+                "Block data: " + messages +
+                "Block was generating for " + getGenerationTime() + " seconds";
     }
 }
