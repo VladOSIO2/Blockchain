@@ -1,5 +1,10 @@
 package blockchain;
 
+import blockchain.block.Block;
+import blockchain.block.BlockFactory;
+import blockchain.block.HashFactory;
+import blockchain.block.HashInfo;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;

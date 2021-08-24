@@ -1,4 +1,7 @@
-package blockchain;
+package blockchain.block;
+
+import blockchain.Blockchain;
+import blockchain.Util;
 
 import java.util.Random;
 

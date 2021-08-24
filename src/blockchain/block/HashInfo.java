@@ -1,6 +1,10 @@
-package blockchain;
+package blockchain.block;
 
-public class HashInfo {
+import java.io.Serializable;
+
+public class HashInfo implements Serializable {
+    private static final long serialVersionUID = 2958187767651364819L;
+
     private final long startTime;
     private final long timeStamp;
     private final int magicNumber;
@@ -33,5 +37,10 @@ public class HashInfo {
 
     public String getHash() {
         return hash;
+    }
+
+    //returns generation time in seconds
+    public int getGenerationTime() {
+        return (int) ((timeStamp - startTime) / 1000);
     }
 }
