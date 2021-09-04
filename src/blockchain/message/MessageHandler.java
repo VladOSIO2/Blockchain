@@ -22,10 +22,16 @@ public class MessageHandler {
         messageList.add(message);
     }
 
-    public synchronized String collectMessages() {
+    public synchronized List<Message> collectMessages() {
+        List<Message> collectedMessages = new ArrayList<>(messageList);
+        messageList.clear();
+        return collectedMessages;
+    }
+
+    public static String groupMessagesToString(List<Message> messageList) {
         StringBuilder messages = new StringBuilder();
         messageList.forEach(msg -> messages.append(msg.toString()).append("\n"));
-        messageList.clear();
-        return messages.toString().equals("") ? "no messages\n" : "\n" + messages;
+        String msg = messages.toString();
+        return msg.isEmpty() ? "no messages\n" : "\n" + msg;
     }
 }

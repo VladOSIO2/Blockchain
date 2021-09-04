@@ -4,6 +4,7 @@ import blockchain.block.Block;
 import blockchain.block.BlockFactory;
 import blockchain.block.HashFactory;
 import blockchain.block.HashInfo;
+import blockchain.message.Message;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -28,13 +29,19 @@ public class Blockchain implements Serializable {
     private volatile int blockCount;
     private volatile int amountOfZeros;
     private final String destination;
+    private volatile int nextMsgID;
 
     private Blockchain(String destination) {
         this.blockList = new ArrayList<>();
         this.blockCount = 0;
         this.amountOfZeros = 0;
         this.destination = destination;
+        this.nextMsgID = 1;
         instance = this;
+    }
+
+    public static Blockchain getInstance() {
+        return getInstance("blockchain.txt");
     }
 
     public static synchronized Blockchain getInstance(String destination) {
@@ -88,9 +95,10 @@ public class Blockchain implements Serializable {
         return info.toString().trim();
     }
 
-    public boolean validate() {
+    public synchronized boolean validate() {
         if (blockList.size() == 0) return true;
         if (!(blockList.get(0).getPreviousHash().equals("0"))) return false;
+        int currMsgID = 1;
         for (int i = 1; i < blockCount; i++) {
             Block currBlock = blockList.get(i);
             Block prevBlock = blockList.get(i - 1);
@@ -101,6 +109,14 @@ public class Blockchain implements Serializable {
             if (!(currBlock.getPreviousHash().equals(
                     prevBlock.getHash()))) {
                 return false;
+            }
+            /* each message must contain its unique ID
+             * which is incremented by 1 for each next message
+             */
+            for (int ID : currBlock.getMessageIDs()) {
+                if (ID != currMsgID++) {
+                    return false;
+                }
             }
         }
         return true;
@@ -144,5 +160,9 @@ public class Blockchain implements Serializable {
 
     public synchronized int getBlockCount() {
         return blockCount;
+    }
+
+    public synchronized int getNextMsgID() {
+        return nextMsgID++;
     }
 }

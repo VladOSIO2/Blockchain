@@ -1,8 +1,8 @@
 package blockchain.message;
 
-import java.util.EventListener;
+import blockchain.Blockchain;
+
 import java.util.Random;
-import java.util.function.Predicate;
 
 /**
  * Generates random messages
@@ -10,6 +10,7 @@ import java.util.function.Predicate;
  */
 public class MessageGenerator {
     private static final Random random = new Random();
+    private static final Blockchain blockchain = Blockchain.getInstance();
 
     private static final String[] senderPool = new String[]{
             "Liam", "Noah", "Oliver", "Elijah", "William", "James", "Nick", "Benjamin",
@@ -30,7 +31,7 @@ public class MessageGenerator {
             "Goodbye!", "GoodBye, cruel World..."
 };
     public static Message next() {
-        return new Message(getSender(), getMessage());
+        return new Message(getSender(), getMessage(), blockchain.getNextMsgID());
     }
 
     private static String getSender() {
