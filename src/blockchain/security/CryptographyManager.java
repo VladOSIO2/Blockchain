@@ -32,7 +32,7 @@ public class CryptographyManager {
         registerSenderIfNew(sender);
         byte[] keyBytes = Files.readAllBytes(
                 new File(getSenderPath(sender) + "\\" + "public.txt").toPath());
-        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
+        X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
         return KeyFactory.getInstance("RSA").generatePublic(spec);
     }
 
@@ -58,14 +58,15 @@ public class CryptographyManager {
             IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.ENCRYPT_MODE, key);
-        return Base64.getEncoder().encodeToString(cipher.doFinal(msg.getBytes(StandardCharsets.UTF_8)));
+        return Base64.getEncoder().encodeToString(cipher.doFinal(msg.getBytes()));
     }
 
     public static String decryptText(String msg, PublicKey key)
-            throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
+            throws InvalidKeyException, NoSuchPaddingException,
+            NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.DECRYPT_MODE, key);
-        return new String(Base64.getDecoder().decode(msg), StandardCharsets.UTF_8);
+        return new String(cipher.doFinal(Base64.getDecoder().decode(msg.getBytes())));
     }
 
     private static synchronized boolean createKeyDirectory() {

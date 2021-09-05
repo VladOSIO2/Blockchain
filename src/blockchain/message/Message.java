@@ -1,8 +1,13 @@
 package blockchain.message;
 
+import blockchain.security.CryptographyManager;
+
+import java.io.Serializable;
+import java.security.GeneralSecurityException;
 import java.security.PublicKey;
 
-public class Message {
+public class Message implements Serializable {
+    private static final long serialVersionUID = -9101578407549641210L;
     private final String message;
     private final String sender;
     private final int ID;
@@ -17,7 +22,12 @@ public class Message {
 
     @Override
     public String toString() {
-        return sender + " : " + message;
+        try {
+            return sender + " : " + CryptographyManager.decryptText(message, key);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public int getID() {
