@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws Exception {
         final Blockchain blockchain = Blockchain.getInstance("blockchain.txt");
         final int blocksToGenerate = 10;
         ExecutorService executor = Executors.newFixedThreadPool(8);

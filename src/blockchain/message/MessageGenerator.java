@@ -1,6 +1,7 @@
 package blockchain.message;
 
 import blockchain.Blockchain;
+import blockchain.security.CryptographyManager;
 
 import java.util.Random;
 
@@ -30,8 +31,16 @@ public class MessageGenerator {
             "Yes", "No", "Да.", "Нет.", "Нааавеееерное",
             "Goodbye!", "GoodBye, cruel World..."
 };
-    public static Message next() {
-        return new Message(getSender(), getMessage(), blockchain.getNextMsgID());
+
+    /** generates next message and encrypts it with sender's private key
+     * (simulation that sender encrypts message, adds public key and wraps all in one object)
+     * @return randomly generated Message, filled with data */
+    public static Message next() throws Exception {
+        String sender = getSender();
+        String message = CryptographyManager.encryptText(
+                getMessage(),
+                CryptographyManager.getPrivate(sender));
+        return new Message(sender, message, blockchain.getNextMsgID(), CryptographyManager.getPublic(sender));
     }
 
     private static String getSender() {
@@ -41,6 +50,5 @@ public class MessageGenerator {
     private static String getMessage() {
         return messagePool[Math.abs(random.nextInt()) % messagePool.length];
     }
-
 
 }
