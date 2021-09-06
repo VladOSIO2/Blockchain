@@ -4,12 +4,10 @@ import blockchain.block.Block;
 import blockchain.block.BlockFactory;
 import blockchain.block.HashFactory;
 import blockchain.block.HashInfo;
-import blockchain.message.Message;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 public class Blockchain implements Serializable {
@@ -22,6 +20,9 @@ public class Blockchain implements Serializable {
     /** maximum block generation time in seconds
      * amount of zeroes decreases if this time exceeded */
     public static final int MAX_GEN_TIME = 5;
+
+    /** amount of VirtualCoins generated per each created block */
+    public static final int VC_PER_BLOCK = 100;
 
 
     private static final long serialVersionUID = 3519709832155525779L;
@@ -60,7 +61,8 @@ public class Blockchain implements Serializable {
     }
 
     public void createBlock() {
-        HashInfo hashInfo = HashFactory.generateHash();
+        //for simulation, minerInfo is miner + thread number
+        HashInfo hashInfo = HashFactory.generateHash("miner" + Thread.currentThread().getId());
         String previousHash;
         synchronized (this) {
             previousHash =
@@ -164,5 +166,39 @@ public class Blockchain implements Serializable {
 
     public synchronized int getNextMsgID() {
         return nextMsgID++;
+    }
+
+    public int getMinerMoney(String minerInfo) {
+        int VC = 0;
+        String[] info;
+        synchronized (this) {
+            info = this.toString().split("\n");
+        }
+        //searching for miner's gains & transactions
+        for (String line : info) {
+            //miner mined current block
+            if (line.matches(minerInfo + " gets \\d+ VC")) {
+                //getting a number how many VC miner mined
+                String[] words = line.split("\\s+");
+                VC += Integer.parseInt(words[2]);
+            }
+            //transaction reading
+            if (line.matches("[^\\s]+ sent \\d+ VC to [^\\s]+")) {
+                String[] words = line.split("\\s+");
+                int transaction = Integer.parseInt(words[2]); //how much was sent
+                //if miner is sender
+                if (words[0].equals(minerInfo)) {
+                    VC -= transaction;
+                }
+                //if miner is receiver
+                if (words[5].equals(minerInfo)) {
+                    VC += transaction;
+                }
+            }
+        }
+        if (VC < 0) {
+            throw new IllegalArgumentException(minerInfo + " VC amount is less than 0 (" + VC + ")");
+        }
+        return VC;
     }
 }
