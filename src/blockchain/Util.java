@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.Collection;
+import java.util.Random;
 
 public class Util {
     /* Applies Sha256 to a string and returns a hash. */
@@ -50,6 +52,4 @@ public class Util {
     public static String getRedString(String str) {
         return "\033[0;31m" + str + "\033[0m";
     }
-
-
 }

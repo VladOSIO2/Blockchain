@@ -1,9 +1,10 @@
 package blockchain.block;
 
-import blockchain.message.Message;
-import blockchain.message.MessageHandler;
+import blockchain.cryptocurrency.Transaction;
+import blockchain.cryptocurrency.TransactionHandler;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Block implements Serializable {
@@ -13,14 +14,14 @@ public class Block implements Serializable {
     private final String minerInfo;
     private final long id;
     private final String previousHash;
-    private final List<Message> messages;
+    private final List<Transaction> transactions;
 
-    public Block(HashInfo hashInfo, String minerInfo, long id, String previousHash, List<Message> messages) {
+    public Block(HashInfo hashInfo, String minerInfo, long id, String previousHash, List<Transaction> transactions) {
         this.hashInfo = hashInfo;
         this.minerInfo = minerInfo;
         this.id = id;
         this.previousHash = previousHash;
-        this.messages = messages;
+        this.transactions = new ArrayList<>(transactions);
     }
 
     public String getMinerInfo() {
@@ -55,10 +56,8 @@ public class Block implements Serializable {
         return hashInfo.getAmountOfZeros();
     }
 
-    public int[] getMessageIDs() {
-        return messages.stream()
-                .mapToInt(Message::getID)
-                .toArray();
+    public List<Transaction> getTransactions() {
+        return new ArrayList<>(transactions);
     }
 
     @Override
@@ -72,7 +71,7 @@ public class Block implements Serializable {
                 previousHash + "\n" +
                 "Hash of the block:\n" +
                 getHash() + "\n" +
-                "Block data: " + MessageHandler.groupMessagesToString(messages) +
+                "Block data: " + TransactionHandler.groupTransactionsToString(transactions) +
                 "Block was generating for " + getGenerationTime() + " seconds";
     }
 }

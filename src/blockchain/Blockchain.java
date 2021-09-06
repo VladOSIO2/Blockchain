@@ -4,6 +4,7 @@ import blockchain.block.Block;
 import blockchain.block.BlockFactory;
 import blockchain.block.HashFactory;
 import blockchain.block.HashInfo;
+import blockchain.cryptocurrency.Transaction;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -112,14 +113,6 @@ public class Blockchain implements Serializable {
                     prevBlock.getHash()))) {
                 return false;
             }
-            /* each message must contain its unique ID
-             * which is incremented by 1 for each next message
-             */
-            for (int ID : currBlock.getMessageIDs()) {
-                if (ID != currMsgID++) {
-                    return false;
-                }
-            }
         }
         return true;
     }
@@ -170,29 +163,24 @@ public class Blockchain implements Serializable {
 
     public int getMinerMoney(String minerInfo) {
         int VC = 0;
-        String[] info;
+        List<Block> blocks;
         synchronized (this) {
-            info = this.toString().split("\n");
+            blocks = new ArrayList<>(blockList);
         }
         //searching for miner's gains & transactions
-        for (String line : info) {
+        for (Block block : blocks) {
             //miner mined current block
-            if (line.matches(minerInfo + " gets \\d+ VC")) {
-                //getting a number how many VC miner mined
-                String[] words = line.split("\\s+");
-                VC += Integer.parseInt(words[2]);
+            if (block.getMinerInfo().equals(minerInfo)) {
+                VC += 100;
             }
             //transaction reading
-            if (line.matches("[^\\s]+ sent \\d+ VC to [^\\s]+")) {
-                String[] words = line.split("\\s+");
-                int transaction = Integer.parseInt(words[2]); //how much was sent
-                //if miner is sender
-                if (words[0].equals(minerInfo)) {
-                    VC -= transaction;
+            for (Transaction transaction : block.getTransactions()) {
+                //adding all received and subtracting all sent VCs
+                if (transaction.getSender().equals(minerInfo)) {
+                    VC -= transaction.getAmount();
                 }
-                //if miner is receiver
-                if (words[5].equals(minerInfo)) {
-                    VC += transaction;
+                if (transaction.getReceiver().equals(minerInfo)) {
+                    VC += transaction.getAmount();
                 }
             }
         }
@@ -200,5 +188,6 @@ public class Blockchain implements Serializable {
             throw new IllegalArgumentException(minerInfo + " VC amount is less than 0 (" + VC + ")");
         }
         return VC;
+
     }
 }

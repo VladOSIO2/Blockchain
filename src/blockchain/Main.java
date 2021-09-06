@@ -1,5 +1,8 @@
 package blockchain;
 
+import blockchain.cryptocurrency.Transaction;
+import blockchain.cryptocurrency.TransactionGenerator;
+import blockchain.cryptocurrency.TransactionHandler;
 import blockchain.message.MessageGenerator;
 import blockchain.message.MessageHandler;
 
@@ -9,9 +12,9 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-
         final Blockchain blockchain = Blockchain.getInstance("blockchain.txt");
-        final int blocksToGenerate = 10;
+        final int blocksToGenerate = 15;
+
         ExecutorService executor = Executors.newFixedThreadPool(8);
 
         for (int i = 0; i < blocksToGenerate; i++) {
@@ -20,9 +23,11 @@ public class Main {
         }
         executor.shutdown();
 
-        //sending messages while blocks keep generating
+        //sending transactions while blocks keep generating
+        TransactionGenerator.init();
         while (!executor.awaitTermination(700, TimeUnit.MILLISECONDS)) {
-            MessageHandler.getInstance().addMessage(MessageGenerator.next());
+            TransactionHandler.getInstance().addTransaction(TransactionGenerator.next());
+            //MessageHandler.getInstance().addMessage(MessageGenerator.next());
         }
 
         blockchain.printInfo();
