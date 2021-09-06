@@ -63,7 +63,7 @@ public class Block implements Serializable {
     @Override
     public String toString() {
         return "Block:" + "\n" +
-                "Created by miner " + minerInfo + "\n" +
+                "Created by: " + minerInfo + "\n" +
                 "Id:" + id + "\n" +
                 "Timestamp: " + getTimestamp() + "\n" +
                 "Magic number: " + getMagicNumber() + "\n" +

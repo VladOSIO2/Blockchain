@@ -16,16 +16,17 @@ public class Transaction implements Serializable {
     private final String sender;
     private final String receiver;
     private final int amount;
-    private final PublicKey publicKey;
+    //private final PublicKey publicKey;
 
-    public Transaction(String sender, String receiver, String amountEncrypted, PublicKey publicKey)
+    public Transaction(String sender, String receiver, int amount/*, PublicKey publicKey*/)
             throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException,
             BadPaddingException, InvalidKeyException {
         this.sender = sender;
         this.receiver = receiver;
         //decrypting gotten amount simulation
-        this.amount = Integer.parseInt(CryptographyManager.decryptText(amountEncrypted, publicKey));
-        this.publicKey = publicKey;
+        //this.amount = Integer.parseInt(CryptographyManager.decryptText(amountEncrypted, publicKey));
+        this.amount = amount;
+        //this.publicKey = publicKey;
     }
 
     public String getSender() {

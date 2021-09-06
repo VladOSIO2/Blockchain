@@ -8,7 +8,9 @@ import blockchain.cryptocurrency.Transaction;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class Blockchain implements Serializable {
@@ -17,10 +19,10 @@ public class Blockchain implements Serializable {
 
     /** minimum block generation time in seconds
      * amount of zeroes increases if this time less than minimum */
-    public static final int MIN_GEN_TIME = 2;
+    public static final int MIN_GEN_TIME = 1;
     /** maximum block generation time in seconds
      * amount of zeroes decreases if this time exceeded */
-    public static final int MAX_GEN_TIME = 5;
+    public static final int MAX_GEN_TIME = 3;
 
     /** amount of VirtualCoins generated per each created block */
     public static final int VC_PER_BLOCK = 100;
@@ -149,7 +151,7 @@ public class Blockchain implements Serializable {
         }
     }
 
-    public static int getAmountOfZeros() {
+    public static synchronized int getAmountOfZeros() {
         return instance == null ? 0 : instance.amountOfZeros;
     }
 
@@ -188,6 +190,11 @@ public class Blockchain implements Serializable {
             throw new IllegalArgumentException(minerInfo + " VC amount is less than 0 (" + VC + ")");
         }
         return VC;
+    }
 
+    public Set<String> getMiners() {
+        Set<String> miners = new HashSet<>();
+        blockList.forEach(block -> miners.add(block.getMinerInfo()));
+        return miners;
     }
 }

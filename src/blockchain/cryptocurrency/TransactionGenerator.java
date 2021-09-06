@@ -20,6 +20,7 @@ public class TransactionGenerator {
     public static void init() {
         Thread.getAllStackTraces().forEach(
                 (thread, stack) -> users.add("miner" + thread.getId()));
+        users.addAll(blockchain.getMiners());
     }
 
     /** generates next transaction and encrypts it with sender's private key
@@ -28,27 +29,30 @@ public class TransactionGenerator {
     public static Transaction next() throws Exception {
         String receiver = getRandomUser();
         String sender;
-        int wallet; //sender's wallet: how much VCs he has
+        int balance; //sender's balance: how much VCs he has
         do {
             sender = getRandomUser();
-            wallet = blockchain.getMinerMoney(sender);
-        } while (wallet == 0);
+            balance = TransactionHandler.getInstance().checkBalance(sender);
+        } while (balance == 0 || sender.equals(receiver));
 
-        int amount = Math.abs(random.nextInt()) % wallet + 1;
-
+        int amount = Math.abs(random.nextInt()) % balance + 1;
+/*
         String amountEncrypted = CryptographyManager.encryptText(
                 Integer.toString(amount),
                 CryptographyManager.getPrivate(sender)
-        );
+        );*/
 
-        return new Transaction(sender, receiver, amountEncrypted, CryptographyManager.getPublic(sender));
+        return new Transaction(sender, receiver, amount/*, CryptographyManager.getPublic(sender)*/);
     }
 
     private static String getRandomUser() {
         int pick = Math.abs(random.nextInt()) % users.size();
-        String[] userArr = (String[]) users.toArray();
-        return userArr[pick];
+        Object[] userArr =  users.toArray();
+        return (String) userArr[pick];
     }
 
-
+    //debug method
+    public static void printUsers() {
+        users.forEach(user -> System.out.println(user + " - " + blockchain.getMinerMoney(user)));
+    }
 }

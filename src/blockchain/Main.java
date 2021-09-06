@@ -13,13 +13,13 @@ import java.util.concurrent.TimeUnit;
 public class Main {
     public static void main(String[] args) throws Exception {
         final Blockchain blockchain = Blockchain.getInstance("blockchain.txt");
-        final int blocksToGenerate = 15;
+        final int blocksToGenerate = 4;
 
         ExecutorService executor = Executors.newFixedThreadPool(8);
 
         for (int i = 0; i < blocksToGenerate; i++) {
-            Thread.sleep(100);
             executor.submit(blockchain::createBlock);
+            Thread.sleep(2000);
         }
         executor.shutdown();
 
@@ -27,9 +27,10 @@ public class Main {
         TransactionGenerator.init();
         while (!executor.awaitTermination(700, TimeUnit.MILLISECONDS)) {
             TransactionHandler.getInstance().addTransaction(TransactionGenerator.next());
-            //MessageHandler.getInstance().addMessage(MessageGenerator.next());
         }
 
         blockchain.printInfo();
+
+        TransactionGenerator.printUsers();
     }
 }
