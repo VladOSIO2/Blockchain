@@ -4,12 +4,13 @@ import blockchain.block.Block;
 import blockchain.block.BlockFactory;
 import blockchain.block.HashFactory;
 import blockchain.block.HashInfo;
-import blockchain.message.Message;
+import blockchain.cryptocurrency.Transaction;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 
 
 public class Blockchain implements Serializable {
@@ -18,10 +19,13 @@ public class Blockchain implements Serializable {
 
     /** minimum block generation time in seconds
      * amount of zeroes increases if this time less than minimum */
-    public static final int MIN_GEN_TIME = 2;
+    public static final int MIN_GEN_TIME = 1;
     /** maximum block generation time in seconds
      * amount of zeroes decreases if this time exceeded */
-    public static final int MAX_GEN_TIME = 5;
+    public static final int MAX_GEN_TIME = 3;
+
+    /** amount of VirtualCoins generated per each created block */
+    public static final int VC_PER_BLOCK = 100;
 
 
     private static final long serialVersionUID = 3519709832155525779L;
@@ -40,7 +44,7 @@ public class Blockchain implements Serializable {
         instance = this;
     }
 
-    public static Blockchain getInstance() {
+    public static synchronized Blockchain getInstance() {
         return getInstance("blockchain.txt");
     }
 
@@ -60,22 +64,38 @@ public class Blockchain implements Serializable {
     }
 
     public void createBlock() {
-        HashInfo hashInfo = HashFactory.generateHash();
-        String previousHash;
-        synchronized (this) {
-            previousHash =
-                    blockCount == 0 ? "0" : blockList.get(blockCount - 1).getHash();
-            blockCount++;
-            Block newBlock = BlockFactory.createBlock(blockCount, previousHash, hashInfo);
-            blockList.add(newBlock);
-            if (newBlock.getGenerationTime() < MIN_GEN_TIME) {
-                amountOfZeros++;
-            } else if (newBlock.getGenerationTime() > MAX_GEN_TIME) {
-                amountOfZeros--;
-            }
+        //for simulation, minerInfo is miner + thread number
+        HashInfo hashInfo;
+        do {
+            hashInfo = HashFactory.generateHash("miner" + Thread.currentThread().getId());
+        } while (!makeAndSaveBlock(hashInfo));
 
-            writeBlockchain(destination);
+    }
+
+    /**
+     * creates block and adds it into a blockchain if
+     * hashInfo for block creation is valid
+     * @param hashInfo hashInfo instance with information for block creation
+     * @return is provided hashInfo is currently valid for block creation
+     */
+    private synchronized boolean makeAndSaveBlock(HashInfo hashInfo) {
+        if (hashInfo == null || hashInfo.getAmountOfZeros() < this.amountOfZeros) {
+            return false;
         }
+        String previousHash =
+                blockCount == 0 ? "0" : blockList.get(blockCount - 1).getHash();
+        blockCount++;
+        Block newBlock = BlockFactory.createBlock(blockCount, previousHash, hashInfo);
+        blockList.add(newBlock);
+        if (newBlock.getGenerationTime() < MIN_GEN_TIME) {
+            amountOfZeros++;
+        } else if (newBlock.getGenerationTime() > MAX_GEN_TIME) {
+            amountOfZeros--;
+        }
+
+        writeBlockchain(destination);
+
+        return true;
     }
 
     @Override
@@ -109,14 +129,6 @@ public class Blockchain implements Serializable {
             if (!(currBlock.getPreviousHash().equals(
                     prevBlock.getHash()))) {
                 return false;
-            }
-            /* each message must contain its unique ID
-             * which is incremented by 1 for each next message
-             */
-            for (int ID : currBlock.getMessageIDs()) {
-                if (ID != currMsgID++) {
-                    return false;
-                }
             }
         }
         return true;
@@ -154,7 +166,7 @@ public class Blockchain implements Serializable {
         }
     }
 
-    public static int getAmountOfZeros() {
+    public static synchronized int getAmountOfZeros() {
         return instance == null ? 0 : instance.amountOfZeros;
     }
 
@@ -164,5 +176,41 @@ public class Blockchain implements Serializable {
 
     public synchronized int getNextMsgID() {
         return nextMsgID++;
+    }
+
+    public int getMinerMoney(String minerInfo) {
+        if (instance == null) return 0;
+        int VC = 0;
+        List<Block> blocks;
+        synchronized (this) {
+            blocks = new ArrayList<>(instance.blockList);
+        }
+        //searching for miner's gains & transactions
+        for (Block block : blocks) {
+            //miner mined current block
+            if (block.getMinerInfo().equals(minerInfo)) {
+                VC += 100;
+            }
+            //transaction reading
+            for (Transaction transaction : block.getTransactions()) {
+                //adding all received and subtracting all sent VCs
+                if (transaction.getSender().equals(minerInfo)) {
+                    VC -= transaction.getAmount();
+                }
+                if (transaction.getReceiver().equals(minerInfo)) {
+                    VC += transaction.getAmount();
+                }
+            }
+        }
+        if (VC < 0) {
+            throw new IllegalArgumentException(minerInfo + " VC amount is less than 0 (" + VC + ")");
+        }
+        return VC;
+    }
+
+    public Set<String> getMiners() {
+        Set<String> miners = new HashSet<>();
+        blockList.forEach(block -> miners.add(block.getMinerInfo()));
+        return miners;
     }
 }

@@ -6,7 +6,8 @@ import blockchain.Util;
 import java.util.Random;
 
 public class HashFactory {
-    public static HashInfo generateHash() {
+    public static HashInfo generateHash(String minerInfo) {
+        minerInfo = minerInfo + " gets " + Blockchain.VC_PER_BLOCK + " VC";
         //getting a magic number which hash starts with certain amount of zeros
         Random random = new Random();
         String zerosStr;
@@ -23,7 +24,7 @@ public class HashFactory {
             }
             zerosStr = "0".repeat(Math.max(0, zeros));
             magicNumber = random.nextInt();
-            hash = Util.applySha256(Long.toHexString(magicNumber + startTime));
+            hash = Util.applySha256(Long.toHexString(magicNumber + startTime) + minerInfo);
             oldZeros = zeros;
         } while (!hash.startsWith(zerosStr));
         long timeStamp = System.currentTimeMillis();

@@ -61,8 +61,8 @@ public class CryptographyManager {
     }
 
     public static String decryptText(String msg, PublicKey key)
-            throws InvalidKeyException, NoSuchPaddingException,
-            NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException {
+            throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException,
+            IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.DECRYPT_MODE, key);
         return new String(cipher.doFinal(Base64.getDecoder().decode(msg.getBytes())));

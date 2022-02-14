@@ -1,17 +1,17 @@
 package blockchain.block;
 
-import blockchain.message.Message;
-import blockchain.message.MessageHandler;
+import blockchain.cryptocurrency.Transaction;
+import blockchain.cryptocurrency.TransactionHandler;
 
 import java.util.List;
 
 public class BlockFactory {
     public static Block createBlock(long id, String previousHash, HashInfo hashInfo) {
         //gathering block info
-        String minerInfo = "# " + Thread.currentThread().getId();
-        List<Message> messages = MessageHandler.getInstance().collectMessages();
+        String minerInfo = "miner" + Thread.currentThread().getId();
+        List<Transaction> transactions = TransactionHandler.getInstance().collectTransactions();
 
-        return new Block(hashInfo, minerInfo, id, previousHash, messages);
+        return new Block(hashInfo, minerInfo, id, previousHash, transactions);
     }
 
 }
