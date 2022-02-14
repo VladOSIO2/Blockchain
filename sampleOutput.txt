@@ -1,0 +1,530 @@
+Block:
+Created by: miner13
+Id:1
+Timestamp: 1644833551548
+Magic number: 1155773810
+Hash of the previous block:
+0
+Hash of the block:
+42a80727ec5154af8c61682f7341e32f30f98eecc4fae1dbe0b1e40a8b4a3175
+Block data: 
+No transactions
+Block was generating for 0 seconds
+N was increased to 1
+
+Block:
+Created by: miner14
+Id:2
+Timestamp: 1644833551553
+Magic number: 657766140
+Hash of the previous block:
+42a80727ec5154af8c61682f7341e32f30f98eecc4fae1dbe0b1e40a8b4a3175
+Hash of the block:
+027a0395d0c371af99ef1192432a1ba30547dc2321c782852991a612669661f8
+Block data: 
+No transactions
+Block was generating for 0 seconds
+N was increased to 2
+
+Block:
+Created by: miner15
+Id:3
+Timestamp: 1644833551690
+Magic number: 1209410567
+Hash of the previous block:
+027a0395d0c371af99ef1192432a1ba30547dc2321c782852991a612669661f8
+Hash of the block:
+00b393f369214604f312c182d9c1e1004ff01356618ce6ab035902608dd9bdec
+Block data: 
+No transactions
+Block was generating for 0 seconds
+N was increased to 3
+
+Block:
+Created by: miner17
+Id:4
+Timestamp: 1644833551987
+Magic number: 1778448824
+Hash of the previous block:
+00b393f369214604f312c182d9c1e1004ff01356618ce6ab035902608dd9bdec
+Hash of the block:
+00000b1c496a4adfec3e561b151a3fd104237e835a80c0d6178a2b3118ceb5ec
+Block data: 
+No transactions
+Block was generating for 0 seconds
+N was increased to 4
+
+Block:
+Created by: miner19
+Id:5
+Timestamp: 1644833552425
+Magic number: 1514022881
+Hash of the previous block:
+00000b1c496a4adfec3e561b151a3fd104237e835a80c0d6178a2b3118ceb5ec
+Hash of the block:
+00008e44e0bb6675c46e747ec15332dafbd126c4163056f085dd7cf5f626c38e
+Block data: 
+No transactions
+Block was generating for 0 seconds
+N was increased to 5
+
+Block:
+Created by: miner14
+Id:6
+Timestamp: 1644833557159
+Magic number: -1034195634
+Hash of the previous block:
+00008e44e0bb6675c46e747ec15332dafbd126c4163056f085dd7cf5f626c38e
+Hash of the block:
+000007c65b9d3e007aac1b7d02e80994f1196b8cb93e9cc170f2d4d21c50f3b2
+Block data: 
+miner15 sent 37 VC to miner16
+miner16 sent 36 VC to miner19
+miner16 sent 1 VC to miner2
+miner19 sent 62 VC to Mann co.
+miner19 sent 64 VC to miner5
+Block was generating for 4 seconds
+N was decreased to 4
+
+Block:
+Created by: miner20
+Id:7
+Timestamp: 1644833557346
+Magic number: -1310079952
+Hash of the previous block:
+000007c65b9d3e007aac1b7d02e80994f1196b8cb93e9cc170f2d4d21c50f3b2
+Hash of the block:
+00004cb0a3921a434dc75a5a8c6a489315048b9f74ce12927b0c2394d7afbfd5
+Block data: 
+Mann co. sent 25 VC to miner19
+Block was generating for 0 seconds
+N was increased to 5
+
+Block:
+Created by: miner18
+Id:8
+Timestamp: 1644833558788
+Magic number: 189170607
+Hash of the previous block:
+00004cb0a3921a434dc75a5a8c6a489315048b9f74ce12927b0c2394d7afbfd5
+Hash of the block:
+00000b204f2811cb4f1635f37bec292e908d1c8aed71efc9bc5f725de1e392e5
+Block data: 
+miner2 sent 1 VC to miner14
+Block was generating for 0 seconds
+N was increased to 6
+
+Block:
+Created by: miner16
+Id:9
+Timestamp: 1644833569121
+Magic number: -282339458
+Hash of the previous block:
+00000b204f2811cb4f1635f37bec292e908d1c8aed71efc9bc5f725de1e392e5
+Hash of the block:
+0000003d0fe4d0c764c0fa77c914da0fb50633251f82bbe3cb24aad3bacbdee9
+Block data: 
+miner19 sent 15 VC to miner13
+miner13 sent 9 VC to McDonalds
+miner15 sent 14 VC to miner16
+miner16 sent 13 VC to miner19
+McDonalds sent 2 VC to miner12
+miner13 sent 85 VC to miner11
+miner15 sent 37 VC to Moderna
+miner18 sent 97 VC to miner19
+miner11 sent 62 VC to miner16
+miner19 sent 107 VC to miner5
+Moderna sent 17 VC to miner3
+miner16 sent 13 VC to miner3
+miner5 sent 27 VC to Moderna
+miner20 sent 85 VC to miner17
+Moderna sent 27 VC to miner1
+Block was generating for 10 seconds
+N was decreased to 5
+
+Block:
+Created by: miner13
+Id:10
+Timestamp: 1644833570502
+Magic number: -1688636361
+Hash of the previous block:
+0000003d0fe4d0c764c0fa77c914da0fb50633251f82bbe3cb24aad3bacbdee9
+Hash of the block:
+000004af5d6a42078e7f9b560d1057a11bd0d208dd1ec8f60dcaf87b2d250d21
+Block data: 
+miner19 sent 10 VC to Toshiba
+McDonalds sent 6 VC to Mann co.
+Block was generating for 0 seconds
+N was increased to 6
+
+Block:
+Created by: miner15
+Id:11
+Timestamp: 1644833634222
+Magic number: -2119674219
+Hash of the previous block:
+000004af5d6a42078e7f9b560d1057a11bd0d208dd1ec8f60dcaf87b2d250d21
+Hash of the block:
+00000099a016e10546683d8e17990469d02694720c2c703f2c491787ff5c2fa5
+Block data: 
+Mann co. sent 24 VC to miner20
+miner18 sent 1 VC to McDonalds
+miner16 sent 138 VC to miner18
+miner20 sent 29 VC to miner18
+miner5 sent 2 VC to miner20
+Mann co. sent 6 VC to miner1
+miner19 sent 1 VC to miner16
+miner20 sent 11 VC to miner3
+miner18 sent 128 VC to miner20
+miner13 sent 31 VC to McDonalds
+miner16 sent 12 VC to Mann co.
+miner16 sent 1 VC to miner14
+McDonalds sent 19 VC to miner13
+miner15 sent 2 VC to miner2
+miner18 sent 22 VC to miner14
+Toshiba sent 6 VC to miner13
+miner11 sent 22 VC to Moderna
+miner14 sent 17 VC to miner11
+Block was generating for 16 seconds
+N was decreased to 5
+
+Block:
+Created by: miner15
+Id:12
+Timestamp: 1644833635815
+Magic number: -2087457010
+Hash of the previous block:
+00000099a016e10546683d8e17990469d02694720c2c703f2c491787ff5c2fa5
+Hash of the block:
+000002a9580ca5be3d7028e4346e8ee92f2f6a10e2dcd7036902e0e8fd868711
+Block data: 
+miner1 sent 16 VC to miner5
+miner1 sent 4 VC to miner3
+Block was generating for 1 seconds
+N stays the same
+
+Block:
+Created by: miner13
+Id:13
+Timestamp: 1644833636929
+Magic number: 1581203350
+Hash of the previous block:
+000002a9580ca5be3d7028e4346e8ee92f2f6a10e2dcd7036902e0e8fd868711
+Hash of the block:
+000003ca38ed53503a7f3395b18215b7708f242afc1cb66abb270108a16bae71
+Block data: 
+miner15 sent 94 VC to miner4
+Mann co. sent 1 VC to miner2
+Block was generating for 2 seconds
+N stays the same
+
+Block:
+Created by: miner14
+Id:14
+Timestamp: 1644833637664
+Magic number: -35746199
+Hash of the previous block:
+000003ca38ed53503a7f3395b18215b7708f242afc1cb66abb270108a16bae71
+Hash of the block:
+00000e037c73db0e859d85eec188dc1383e957a000c1d1e07c8bc4d8f08f0fcf
+Block data: 
+miner3 sent 45 VC to miner5
+Block was generating for 3 seconds
+N stays the same
+
+Block:
+Created by: miner18
+Id:15
+Timestamp: 1644833638148
+Magic number: -1777526484
+Hash of the previous block:
+00000e037c73db0e859d85eec188dc1383e957a000c1d1e07c8bc4d8f08f0fcf
+Hash of the block:
+000001526196b5f60a421c00905bb91191c469b4be19be5a7886237cc81263f4
+Block data: 
+No transactions
+Block was generating for 3 seconds
+N stays the same
+
+Block:
+Created by: miner20
+Id:16
+Timestamp: 1644833639195
+Magic number: -2036747386
+Hash of the previous block:
+000001526196b5f60a421c00905bb91191c469b4be19be5a7886237cc81263f4
+Hash of the block:
+00000f28d44d4eb91859d34cb549979ad5400c0318104b3e547a11133ad30996
+Block data: 
+miner18 sent 85 VC to miner19
+miner13 sent 154 VC to miner14
+Block was generating for 4 seconds
+N was decreased to 4
+
+Block:
+Created by: miner19
+Id:17
+Timestamp: 1644833639917
+Magic number: 1305225620
+Hash of the previous block:
+00000f28d44d4eb91859d34cb549979ad5400c0318104b3e547a11133ad30996
+Hash of the block:
+00005fc87b6ac757cd2ed71a6deaaa04421af22c0d53dcab2a88859fd4094b84
+Block data: 
+miner2 sent 2 VC to miner19
+Block was generating for 0 seconds
+N was increased to 5
+
+Block:
+Created by: miner15
+Id:18
+Timestamp: 1644833640698
+Magic number: 1285212893
+Hash of the previous block:
+00005fc87b6ac757cd2ed71a6deaaa04421af22c0d53dcab2a88859fd4094b84
+Hash of the block:
+00000b8905962f973321870101adb549993dc029b5038c0876ffea30c84f0a14
+Block data: 
+Mann co. sent 8 VC to McDonalds
+Block was generating for 0 seconds
+N was increased to 6
+
+Block:
+Created by: miner17
+Id:19
+Timestamp: 1644833650800
+Magic number: -643362418
+Hash of the previous block:
+00000b8905962f973321870101adb549993dc029b5038c0876ffea30c84f0a14
+Hash of the block:
+00000096b326cbb1eac65d33ade8c380cedcf2740099490ce0060fb28e4fa115
+Block data: 
+miner14 sent 119 VC to miner15
+miner17 sent 100 VC to Toshiba
+miner20 sent 195 VC to miner17
+miner13 sent 16 VC to McDonalds
+miner19 sent 87 VC to miner16
+miner11 sent 18 VC to miner19
+Toshiba sent 65 VC to miner1
+Toshiba sent 34 VC to Mann co.
+miner16 sent 86 VC to miner15
+Mann co. sent 45 VC to Moderna
+miner14 sent 238 VC to miner12
+miner15 sent 120 VC to miner18
+miner14 sent 76 VC to miner5
+miner5 sent 134 VC to miner12
+Block was generating for 9 seconds
+N was decreased to 5
+
+Block:
+Created by: miner16
+Id:20
+Timestamp: 1644833652305
+Magic number: -1809928572
+Hash of the previous block:
+00000096b326cbb1eac65d33ade8c380cedcf2740099490ce0060fb28e4fa115
+Hash of the block:
+000004315eaf402bc17eeccbc99d2f3600904b256b24eddbba4e6a70c8cc87c2
+Block data: 
+miner16 sent 1 VC to miner19
+McDonalds sent 28 VC to miner19
+Block was generating for 0 seconds
+N was increased to 6
+
+Block:
+Created by: miner14
+Id:21
+Timestamp: 1644834114183
+Magic number: 492638315
+Hash of the previous block:
+000004315eaf402bc17eeccbc99d2f3600904b256b24eddbba4e6a70c8cc87c2
+Hash of the block:
+000000913578d95534c850dcb4ca4d4258b8bb6b7089aadab2d0e6bb5c4f7f60
+Block data: 
+miner14 sent 11 VC to McDonalds
+miner13 sent 15 VC to miner15
+miner18 sent 32 VC to Mann co.
+miner5 sent 49 VC to miner16
+Block was generating for 4 seconds
+N was decreased to 5
+
+Block:
+Created by: miner19
+Id:22
+Timestamp: 1644834116690
+Magic number: 71003862
+Hash of the previous block:
+000000913578d95534c850dcb4ca4d4258b8bb6b7089aadab2d0e6bb5c4f7f60
+Hash of the block:
+000006389af3406fd382234cff82bea927594e1c6f0f300337ac7917d28b3e49
+Block data: 
+miner1 sent 1 VC to Mann co.
+miner1 sent 43 VC to Toshiba
+miner14 sent 51 VC to miner3
+Block was generating for 1 seconds
+N stays the same
+
+Block:
+Created by: miner14
+Id:23
+Timestamp: 1644834117989
+Magic number: -1410806414
+Hash of the previous block:
+000006389af3406fd382234cff82bea927594e1c6f0f300337ac7917d28b3e49
+Hash of the block:
+00000c2ad2092421a1e7cee285651f6e39b48af43ef31328ca5da39ea3a04e5e
+Block data: 
+miner18 sent 35 VC to McDonalds
+Block was generating for 2 seconds
+N stays the same
+
+Block:
+Created by: miner20
+Id:24
+Timestamp: 1644834118929
+Magic number: -1934763117
+Hash of the previous block:
+00000c2ad2092421a1e7cee285651f6e39b48af43ef31328ca5da39ea3a04e5e
+Hash of the block:
+00000495a0d54503dda6d036a3f768f4016a3ac206148fc6a2ca283c7b426a43
+Block data: 
+miner18 sent 64 VC to miner5
+miner20 sent 30 VC to miner2
+Block was generating for 3 seconds
+N stays the same
+
+Block:
+Created by: miner18
+Id:25
+Timestamp: 1644834119245
+Magic number: 1397681140
+Hash of the previous block:
+00000495a0d54503dda6d036a3f768f4016a3ac206148fc6a2ca283c7b426a43
+Hash of the block:
+000007911ce91af0f4c7a2e4b3c31df831b3b966cf55f8522213a0ae309c7f3f
+Block data: 
+No transactions
+Block was generating for 4 seconds
+N was decreased to 4
+
+Block:
+Created by: miner13
+Id:26
+Timestamp: 1644834119495
+Magic number: 521538514
+Hash of the previous block:
+000007911ce91af0f4c7a2e4b3c31df831b3b966cf55f8522213a0ae309c7f3f
+Hash of the block:
+00000d5ea926b93822e40bbc46ee9395ee3a39abb01279dec68b54221acfc655
+Block data: 
+No transactions
+Block was generating for 4 seconds
+N was decreased to 4
+
+Block:
+Created by: miner15
+Id:27
+Timestamp: 1644834119542
+Magic number: 57313714
+Hash of the previous block:
+00000d5ea926b93822e40bbc46ee9395ee3a39abb01279dec68b54221acfc655
+Hash of the block:
+000a3cc6d36dff55e2da095408ed5a234a5143be73dfac804531779b27a2e907
+Block data: 
+miner1 sent 31 VC to miner12
+Block was generating for 0 seconds
+N was increased to 4
+
+Block:
+Created by: miner17
+Id:28
+Timestamp: 1644834120280
+Magic number: 56939619
+Hash of the previous block:
+000a3cc6d36dff55e2da095408ed5a234a5143be73dfac804531779b27a2e907
+Hash of the block:
+0000ba54eb59cd0a2b69485ed724581b5c3c8f7209caaa986444c3512645c2a1
+Block data: 
+Moderna sent 58 VC to miner1
+Block was generating for 0 seconds
+N was increased to 5
+
+Block:
+Created by: miner16
+Id:29
+Timestamp: 1644834121108
+Magic number: -1452608466
+Hash of the previous block:
+0000ba54eb59cd0a2b69485ed724581b5c3c8f7209caaa986444c3512645c2a1
+Hash of the block:
+000004598769fad2f17de3720de32e69823926da9c569a6d297a7adb0bdd23ec
+Block data: 
+miner17 sent 353 VC to miner16
+Block was generating for 0 seconds
+N was increased to 6
+
+Block:
+Created by: miner19
+Id:30
+Timestamp: 1644834144317
+Magic number: 1159889802
+Hash of the previous block:
+000004598769fad2f17de3720de32e69823926da9c569a6d297a7adb0bdd23ec
+Hash of the block:
+0000008ab444003ffa2da7b796fdff0ebeb95d611623d840c11165309f8f0210
+Block data: 
+miner4 sent 50 VC to miner3
+miner17 sent 48 VC to miner11
+miner19 sent 161 VC to miner18
+miner20 sent 47 VC to Moderna
+miner2 sent 8 VC to Moderna
+McDonalds sent 23 VC to miner1
+Mann co. sent 34 VC to miner16
+miner5 sent 129 VC to Moderna
+miner19 sent 39 VC to miner13
+miner4 sent 33 VC to miner12
+miner18 sent 50 VC to Toshiba
+miner1 sent 57 VC to miner3
+miner14 sent 15 VC to miner3
+miner12 sent 391 VC to McDonalds
+miner15 sent 266 VC to miner5
+miner18 sent 54 VC to miner1
+miner17 sent 43 VC to miner15
+miner19 sent 42 VC to miner3
+miner14 sent 3 VC to miner4
+miner18 sent 77 VC to miner15
+miner13 sent 89 VC to miner4
+miner15 sent 190 VC to Moderna
+miner17 sent 35 VC to Toshiba
+miner1 sent 20 VC to miner4
+Mann co. sent 1 VC to miner16
+miner12 sent 7 VC to miner11
+miner3 sent 170 VC to miner14
+miner18 sent 42 VC to miner15
+miner1 sent 11 VC to miner18
+miner1 sent 47 VC to Moderna
+miner2 sent 21 VC to miner1
+miner12 sent 3 VC to miner2
+Block was generating for 22 seconds
+N was decreased to 5
+Toshiba - 133
+miner2 - 5
+miner1 - 24
+miner20 - 57
+miner5 - 297
+miner11 - 55
+miner4 - 123
+miner3 - 45
+McDonalds - 424
+miner13 - 80
+miner12 - 37
+miner15 - 122
+miner14 - 318
+miner17 - 1
+miner16 - 637
+miner19 - 117
+miner18 - 72
+Moderna - 450
+Mann co. - 3
+
+Process finished with exit code 0
