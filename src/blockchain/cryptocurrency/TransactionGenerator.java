@@ -1,14 +1,12 @@
 package blockchain.cryptocurrency;
 
 import blockchain.Blockchain;
-import blockchain.security.CryptographyManager;
 
 import java.util.*;
 
 public class TransactionGenerator {
 
     private static final Random random = new Random();
-    private static final Blockchain blockchain = Blockchain.getInstance();
 
     private static final String[] customUsers = new String[] {
             "McDonalds", "Mann co.", "Toshiba", "Moderna"
@@ -20,7 +18,7 @@ public class TransactionGenerator {
     public static void init() {
         Thread.getAllStackTraces().forEach(
                 (thread, stack) -> users.add("miner" + thread.getId()));
-        users.addAll(blockchain.getMiners());
+        users.addAll(Blockchain.getInstance().getMiners());
     }
 
     /** generates next transaction and encrypts it with sender's private key
@@ -36,13 +34,8 @@ public class TransactionGenerator {
         } while (balance == 0 || sender.equals(receiver));
 
         int amount = Math.abs(random.nextInt()) % balance + 1;
-/*
-        String amountEncrypted = CryptographyManager.encryptText(
-                Integer.toString(amount),
-                CryptographyManager.getPrivate(sender)
-        );*/
 
-        return new Transaction(sender, receiver, amount/*, CryptographyManager.getPublic(sender)*/);
+        return new Transaction(sender, receiver, amount);
     }
 
     private static String getRandomUser() {
@@ -53,6 +46,6 @@ public class TransactionGenerator {
 
     //debug method
     public static void printUsers() {
-        users.forEach(user -> System.out.println(user + " - " + blockchain.getMinerMoney(user)));
+        users.forEach(user -> System.out.println(user + " - " + Blockchain.getInstance().getMinerMoney(user)));
     }
 }

@@ -13,13 +13,13 @@ import java.util.concurrent.TimeUnit;
 public class Main {
     public static void main(String[] args) throws Exception {
         final Blockchain blockchain = Blockchain.getInstance("blockchain.txt");
-        final int blocksToGenerate = 4;
+        final int blocksToGenerate = 10;
 
         ExecutorService executor = Executors.newFixedThreadPool(8);
 
         for (int i = 0; i < blocksToGenerate; i++) {
             executor.submit(blockchain::createBlock);
-            Thread.sleep(2000);
+            Thread.sleep(100);
         }
         executor.shutdown();
 

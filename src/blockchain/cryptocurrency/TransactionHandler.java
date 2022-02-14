@@ -1,7 +1,6 @@
 package blockchain.cryptocurrency;
 
 import blockchain.Blockchain;
-import blockchain.message.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +8,6 @@ import java.util.List;
 public class TransactionHandler {
     private static TransactionHandler instance;
     List<blockchain.cryptocurrency.Transaction> transactionList;
-    private static final Blockchain blockchain = Blockchain.getInstance();
-
 
     private TransactionHandler() {
         transactionList = new ArrayList<>();
@@ -43,7 +40,7 @@ public class TransactionHandler {
     public int checkBalance(String miner) {
         //sums balance info from previous blocks in blockchain
         //and done but didn't saved to a block transactions
-        int balance = blockchain.getMinerMoney(miner) + unsavedBalanceChanges(miner);
+        int balance = Blockchain.getInstance().getMinerMoney(miner) + unsavedBalanceChanges(miner);
         if (balance < 0) {
             throw new IllegalArgumentException(miner + "got negative balance: " + balance);
         }

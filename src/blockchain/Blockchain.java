@@ -44,7 +44,7 @@ public class Blockchain implements Serializable {
         instance = this;
     }
 
-    public static Blockchain getInstance() {
+    public static synchronized Blockchain getInstance() {
         return getInstance("blockchain.txt");
     }
 
@@ -65,22 +65,37 @@ public class Blockchain implements Serializable {
 
     public void createBlock() {
         //for simulation, minerInfo is miner + thread number
-        HashInfo hashInfo = HashFactory.generateHash("miner" + Thread.currentThread().getId());
-        String previousHash;
-        synchronized (this) {
-            previousHash =
-                    blockCount == 0 ? "0" : blockList.get(blockCount - 1).getHash();
-            blockCount++;
-            Block newBlock = BlockFactory.createBlock(blockCount, previousHash, hashInfo);
-            blockList.add(newBlock);
-            if (newBlock.getGenerationTime() < MIN_GEN_TIME) {
-                amountOfZeros++;
-            } else if (newBlock.getGenerationTime() > MAX_GEN_TIME) {
-                amountOfZeros--;
-            }
+        HashInfo hashInfo;
+        do {
+            hashInfo = HashFactory.generateHash("miner" + Thread.currentThread().getId());
+        } while (!makeAndSaveBlock(hashInfo));
 
-            writeBlockchain(destination);
+    }
+
+    /**
+     * creates block and adds it into a blockchain if
+     * hashInfo for block creation is valid
+     * @param hashInfo hashInfo instance with information for block creation
+     * @return is provided hashInfo is currently valid for block creation
+     */
+    private synchronized boolean makeAndSaveBlock(HashInfo hashInfo) {
+        if (hashInfo == null || hashInfo.getAmountOfZeros() < this.amountOfZeros) {
+            return false;
         }
+        String previousHash =
+                blockCount == 0 ? "0" : blockList.get(blockCount - 1).getHash();
+        blockCount++;
+        Block newBlock = BlockFactory.createBlock(blockCount, previousHash, hashInfo);
+        blockList.add(newBlock);
+        if (newBlock.getGenerationTime() < MIN_GEN_TIME) {
+            amountOfZeros++;
+        } else if (newBlock.getGenerationTime() > MAX_GEN_TIME) {
+            amountOfZeros--;
+        }
+
+        writeBlockchain(destination);
+
+        return true;
     }
 
     @Override
@@ -164,10 +179,11 @@ public class Blockchain implements Serializable {
     }
 
     public int getMinerMoney(String minerInfo) {
+        if (instance == null) return 0;
         int VC = 0;
         List<Block> blocks;
         synchronized (this) {
-            blocks = new ArrayList<>(blockList);
+            blocks = new ArrayList<>(instance.blockList);
         }
         //searching for miner's gains & transactions
         for (Block block : blocks) {
